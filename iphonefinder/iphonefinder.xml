@@ -1,0 +1,20 @@
+<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="ruleiphonefinder" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
+  <rule id="ruleiphonefinder" scope="public">
+    <example>Sarah ou est Franck</example>
+    <tag>out.action=new Object(); </tag>
+    <item weight="2">Sarah</item>
+		<one-of>
+			<item>géolocalise<tag>out.action.what="Address"</tag></item>
+			<item>localise<tag>out.action.what="Address"</tag></item>
+			<item>ou est<tag>out.action.what="Address"</tag></item>
+			<item>dans quelle ville est<tag>out.action.what="City"</tag></item>
+		</one-of>
+		<one-of>
+			<item>Franck<tag>out.action.who="Franck"</tag></item>
+			<item>mon iphone<tag>out.action.who="iPhone"</tag></item>
+			<item>l'ipad<tag>out.action.who="iPad"</tag></item>
+		</one-of>
+	
+<tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/iphonefinder";</tag>
+  </rule>
+</grammar>
