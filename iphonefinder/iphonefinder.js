@@ -1,18 +1,24 @@
-exports.action = function(data, callback, config, SARAH) {
-  
+﻿exports.action = function(data, callback, config, SARAH) {
+  var config = config.modules.iphonefinder;
   var exec = require('child_process').exec;
   var util = require('util');
 	var iPhoneFinder = require('./lib/iphone-finder.js');
-	config=config.modules.iphonefinder;
-
 	var iCloudUser = config.api_login;
 	var iCloudPass = config.api_password;
 	var iCloudDevice = 0;
-
-	if ((!iCloudUser)||(!iCloudPass)) {
+	var latitude_sarah = config.latitude_sarah;
+	var longitude_sarah = config.longitude_sarah;
+	var distance = 0;
+	var location = "formatted_address";
+	var acc = 0;
+	
+	if ((!config.api_login)||(!config.api_password)) {
         return callback({ 'tts': 'Configuration invalide' });
-    }
-
+    }else if ((iCloudUser == "[Email iCloud]") || (iCloudUser == "[Mot de passe iCloud]")){
+		return callback({ 'tts': 'Veuillez configurer le module' });
+	}
+	
+	console.log("Connexion "+iCloudUser);
 	//Selection du device selon utilisateur
 	var user = data.who;
 	switch(user)
@@ -29,63 +35,84 @@ exports.action = function(data, callback, config, SARAH) {
 			return callback({ 'tts': 'Utilisateur '+user+' non reconnu' });
 	}
 	//if (!iCloudDevice) iCloudDevice = 0;
-	var location = "formatted_address";
-	switch(data.what)
-	{
-		case 'City':
-			location = "locality";
-			break;
-		case 'Address':
-			location = "formatted_address";
-			break;
-		case 'Distance':
-			//location = "formatted_address";
-			break;
-		default:
-			location = "formatted_address";
+	if(data.what=='Msg'){
+		alarm = false;
+		subject = (!data.msg?"Hello! C'est SARAH.":data.msg);
+		msg = "message"; //N'est pas visible?
+		iPhoneFinder.sendMsgToDevice(iCloudUser, iCloudPass, iCloudDevice, alarm, subject, msg, function(err, body) {
+			//devices.forEach(outputDevice);
+			//outputDevice(devices[iCloudDevice]);
+			//console.log(body);
+			callback({'tts' : "J'ai envoyé le message."});
+		});
+	}else if (data.what=="Alarm"){
+		alarm = true;
+		subject = "ALARM";
+		msg = "ALARM."; //N'est pas visible?
+		iPhoneFinder.sendMsgToDevice(iCloudUser, iCloudPass, iCloudDevice, alarm, subject, msg, function(err, body) {
+			callback({'tts' : "J'ai envoyé une alarme."});
+		});
+	}else{
+		iPhoneFinder.findAllDevices(iCloudUser, iCloudPass, function(err, devices) {
+			//devices.forEach(outputDevice);
+			console.log('Localisation Device '+iCloudDevice);
+			outputDevice(devices[iCloudDevice]);
+		});
 	}
-	
-	console.log("Connexion "+iCloudUser+"..");
-	// Find all devices the user owns
-	iPhoneFinder.findAllDevices(iCloudUser, iCloudPass, function(err, devices) {
-    //devices.forEach(outputDevice);
-	outputDevice(devices[iCloudDevice]);
-});
-
+	//sendDeviceMsg
 // Output device type, name and location. Includes link to google maps with long/lat set
 function outputDevice(device) {
+if(device===null){
+	return callback({'tts' : "Aucun téléphone récupéré."});
+}
+if(device.location===null){
+	return callback({'tts' : "Aucune information de localisation disponible."});
+}
+	var retour = "Erreur";
     // Output device information
-    console.log('Device Name: ' + device.name);
-    console.log('Device Type: ' + device.modelDisplayName);
-
+    console.log('Device Name: ' + device.name+', Type: ' + device.modelDisplayName);
+	//console.log('Device id: ' + device.id);
+   // console.log('Device Type: ' + device.modelDisplayName);
     // Output location (latitude and longitude)
     var lat = device.location.latitude;
     var lon = device.location.longitude;
     console.log('Lat/Long: ' + lat + ' / ' + lon);
 
-    // Output a url that shows the device location on google maps
     //console.log('View on Map: http://maps.google.com/maps?z=15&t=m&q=loc:' + lat + '+' + lon);
-	if(location!="Distance"){
-		getAddress(lat, lon);
-	}else{
-		//Todo
-		callback({'tts' : "Calcul de distance pas encore impl�ment�. D�sol�."});
+	switch(data.what)
+	{
+		case 'City':
+			getAddress(lat, lon, "locality", -1);
+			break;
+		case 'Address':
+			getAddress(lat, lon, "formatted_address", -1);
+			break;
+		case 'Distance':
+			if(!checkHome(config)) return callback({ 'tts': 'Veuillez configurer votre position pour utiliser cette fonction.' });
+			distance = getDistanceFrom(parseFloat(latitude_sarah), parseFloat(longitude_sarah), 0, lat, lon, acc);
+			retour = user+(distance<=10?" ne se trouve pas très loin.": " est à "+(distance<=1000?distance+" mètres":(distance/1000)+" kilomètres"));
+			return callback({'tts' : retour});
+			break;
+		case 'Mix':
+			if(!checkHome(config)) return callback({ 'tts': 'Veuillez configurer votre position pour utiliser cette fonction.' });
+			distance = getDistanceFrom(parseFloat(latitude_sarah), parseFloat(longitude_sarah), 0, lat, lon, acc);
+			getAddress(lat, lon, "locality", distance); //with distance
+			break;
 	}
 }
 
-function getAddress(lat, lng) {
-
+function getAddress(lat, lng, location, distance) {
 	var retourTts = "Erreur de localisation";
 	var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+lat+','+lng+'&sensor=false';
 	var request = require('request');
 	  request({ 'uri' : url }, function (err, response, body){
 		
 		if (err || response.statusCode != 200) {
-		  callback({'tts': "L'action a �chou�"});
-		  return;
+		  //callback({'tts': "L'action a échoué"});
+		  //return;
+		  return callback({'tts' : "Je n'ai pas réussi à me connecter aux serveur d'Apple"});
 		}
-			
-		console.log("Reverse Geocoding...");
+		//console.log("Reverse Geocoding...");
 		var result = JSON.parse(body);
 		if(typeof result != 'undefined'){
 			if(result.status=="OK"){
@@ -107,34 +134,66 @@ function getAddress(lat, lng) {
 						}
 					}
 					console.log('Adresse: '+locationFound);
-					retourTts = user+" se trouve "+(location=="formatted_address"?" au ":" � ")+locationFound;
+					retourTts = user+" se trouve "+(location=="formatted_address"?" au ":" à ")+locationFound;
+					if(distance>=0){
+						retourTts = retourTts + (distance<=10?" pas très loin.": " à "+(distance<=1000?distance+" mètres.":(distance/1000)+" kilomètres."))
+					}
+					return callback({'tts' : retourTts});
 					
 				} else {
-					retourTts = "Aucun emplacement trouv� pour la localisation";
-					console.log(retourTts);
+					return callback({'tts' : "Aucun emplacement trouvé pour la localisation"});
 				}
-				
 			}else{
-				retourTts = "Erreur de r�cup�ration de l'adresse";
-				console.log(retourTts);
+				return callback({'tts' : "Erreur de récupération de l'adresse"});
 			}
 		}else{
-			retourTts = "Aucun resultat";
-			console.log(retourTts);
+			return callback({'tts' : "Aucun resultat"});
 		}
 		
-		callback({'tts' : retourTts});
-		
-		
-		
+		//callback({'tts' : retourTts});
 		
 	  });
-	
-		
+	//returnCallback(retourTts);
 }
-	
-	
 
-  
-  
+function checkHome(config){
+	if ((!config.latitude_sarah) || (!config.longitude_sarah)){
+		return false;
+	}else if ((config.latitude_sarah == "") || (config.longitude_sarah == "")){
+		return false;
+	}else{
+		return true;
+	}
+}
+
+function getDistanceFrom(fromLat, fromLng, fromAcc, lat, lng, acc){
+	var delta_lat = fromLat - lat;
+	var delta_lon = fromLng - lng;
+	var distance  = Math.sin(deg2rad(lat)) * Math.sin(deg2rad(fromLat)) + Math.cos(deg2rad(lat)) * Math.cos(deg2rad(fromLat)) * Math.cos(deg2rad(delta_lon));
+	distance  = Math.acos(distance);
+	distance  = rad2deg(distance);
+	distance  = distance * 60 * 1.1515;
+	distance  = distance * 1.609344; //Miles in KM
+	distance  = Math.round(distance, 4)*1000; //in meters
+	console.log("Distance="+distance+"m");
+	return distance;
+}
+
+function deg2rad (angle) {
+  // http://kevin.vanzonneveld.net
+  // +   original by: Enrique Gonzalez
+  // +     improved by: Thomas Grainger (http://graingert.co.uk)
+  // *     example 1: deg2rad(45);
+  // *     returns 1: 0.7853981633974483
+  return angle * .017453292519943295; // (angle / 180) * Math.PI;
+}
+function rad2deg (angle) {
+  // http://kevin.vanzonneveld.net
+  // +   original by: Enrique Gonzalez
+  // +      improved by: Brett Zamir (http://brett-zamir.me)
+  // *     example 1: rad2deg(3.141592653589793);
+  // *     returns 1: 180
+  return angle * 57.29577951308232; // angle / Math.PI * 180
+}
+
 }

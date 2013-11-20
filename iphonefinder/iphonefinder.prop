@@ -1,10 +1,12 @@
 {
   "modules": { 
     "iphonefinder": {
-      "description": "Use Find my iPhone to locate an iPhone user (thanks to Thomas Henley thomas@hendore.co.uk for his library iphone-finder",
-      "version": "1.0",
-	  "api_login"    : "email iCloud",
-      "api_password"    : "mot de passe iCloud"
+      "description": "Use Find my iPhone to locate an iPhone user",
+      "version": "1.1",
+      "api_login"    : "[Email iCloud]",
+      "api_password"    : "[Mot de passe iCloud]",
+      "latitude_sarah" : "",
+      "longitude_sarah" : ""
     }
   }
 }

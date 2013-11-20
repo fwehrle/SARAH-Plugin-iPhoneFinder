@@ -1,0 +1,26 @@
+﻿<div id="iphonefinder">
+  <div class="row-fluid">
+		<div class="span11">
+			<p>Le plugin <b>iphonefinder</b> permet de géolocaliser un iPhone en utilisant le service Find My iPhone d'Apple</p>
+			<p>Les phrases magiques sont définies dans le fichier de grammaire XML <i>iphonefinder.xml</i> et sont à modifier selon votre convenance (en changeant le prénom pour commencer, sauf si vous vous appelez Franck! :) 
+				<ul>
+					<li><i>Sarah, où est Franck?</i></li>
+					<li><i>Sarah, où es mon iPhone ?</i></li>
+				</ul>
+				<pre>&lt;item&gt;Franck&lt;tag&gt;out.action.who = &quot;Franck&quot;&lt;/tag&gt;&lt;/item&gt;</pre>
+			</p>
+			<p>Par défaut, le plugin localise le premier iDevice lié au compte. Si il y en a plusieurs, il suffit d'indiquer le numéro du device dans le fichier xml :</p>
+			<pre>&lt;item&gt;Franck&lt;tag&gt;out.action.who = &quot;Franck&quot;&lt;/tag&gt;&lt;/item&gt;</pre>
+			<p>Il suffit de renseigner vos identifiants iCloud dans la configuration du plugin, et ca marche!</p>
+			<p>Il est possible d'affiner le résultat en indiquant le niveau de précision dans le tag "what" : <br>
+			"Distance" pour la distance, "City" pour la ville, "Address" pour l'adresse complète et "Mix" pour la ville et la distance</p>
+			<pre>&lt;item&gt;ou est&lt;tag&gt;out.action.what = &quot;Address&quot;&lt;/tag&gt;&lt;/item&gt;</pre>
+			<p>Si vous voulez que SARAH vous donne la distance qui sépare l'utilisateur à localiser d'un endroit (la maison) il faut saisir les coordonnées GPS de l'endroit<br>
+			dans la configuration du plugin (latitude_sarah et longitude_sarah). Pour les trouver, il suffit d'aller sur <a href="https://maps.google.com">Google Maps</a>, <br>
+			de localiser l'endroit, et de faire un clic droit sur le marqueur rouge et "Plus d'infos sur cet endroit".<br>
+			les coordonnées (latitude,longitude) sont indiquées dans la barre d'adresse de Maps.</p></br>
+			<p><b>EXPERIMENTAL:</b>Le tag "what" peut aussi contenir les mot-clés "Alarm" pour faire sonner le téléphone et "Msg" pour envoyer un message (dans ce cas, ajouter un tag "msg" avec votre message). </p>
+		</div>
+  </div>
+
+</div>
