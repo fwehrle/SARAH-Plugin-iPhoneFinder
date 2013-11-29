@@ -3,10 +3,14 @@
     "iphonefinder": {
       "description": "Use Find my iPhone to locate an iPhone user",
       "version": "1.1",
-      "api_login"    : "[Email iCloud]",
-      "api_password"    : "[Mot de passe iCloud]",
-      "latitude_sarah" : "",
-      "longitude_sarah" : ""
-    }
+	  "api_login1": "[Email iCloud]",
+      "api_password1": "mot de passe iCloud",
+	  "api_login2": "[Email iCloud]",
+      "api_password2": "mot de passe iCloud",
+	  "api_login3": "[Email iCloud]",
+      "api_password3": "mot de passe iCloud",
+      "latitude_sarah": "",
+      "longitude_sarah": ""
+	}
   }
 }

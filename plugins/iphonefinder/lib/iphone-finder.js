@@ -2,7 +2,7 @@
  * Simple library to locate iOS devices (iPhone, iPod and iPad)
  *
  * Author: 	Thomas Henley
- * 			Franck Wehrlé 20/11/2013 : Add sendMsg functions
+ * 			Franck WehrlÃ© 20/11/2013 : Add sendMsg functions
  */
 var Buffer = require('buffer').Buffer;
 var https  = require('https');

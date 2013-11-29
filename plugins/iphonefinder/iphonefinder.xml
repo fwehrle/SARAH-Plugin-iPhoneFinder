@@ -1,62 +1,75 @@
-﻿<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="ruleiphonefinder" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
-
+<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="ruleiphonefinder" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
   <rule id="ruleiphonefinder" scope="public">
 		<example>Sarah ou est Franck</example>
 		<tag>out.action=new Object(); </tag>
 		<item >Sarah</item>
 		<one-of>
-			<item><ruleref uri="#ruleiphonefinder_localise"/><tag>out.action = rules.ruleiphonefinder_localise;</tag><tag>out.action._attributes.tts = "Je cherche"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/iphonefinder";</tag></item>
-			<item><ruleref uri="#ruleiphonefinder_message"/><tag>out.action = rules.ruleiphonefinder_message;</tag><tag>out.action._attributes.tts = "Okay"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/iphonefinder";</tag></item>
-			<item><ruleref uri="#ruleiphonefinder_alarme"/><tag>out.action = rules.ruleiphonefinder_alarme;</tag><tag>out.action._attributes.tts = "Okay"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/iphonefinder";</tag></item>
+			<item><ruleref uri="#ruleiphonefinder_localise"/><tag>out.action = rules.ruleiphonefinder_localise;</tag><tag>out.action._attributes.tts = "Je me renseigne"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/iphonefinder";</tag></item>
+			<item><ruleref uri="#ruleiphonefinder_message"/><tag>out.action = rules.ruleiphonefinder_message;</tag><tag>out.action._attributes.tts = "Très bien, je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/iphonefinder";</tag></item>
+			<item><ruleref uri="#ruleiphonefinder_alarme"/><tag>out.action = rules.ruleiphonefinder_alarme;</tag><tag>out.action._attributes.tts = "Très bien, je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/iphonefinder";</tag></item>
 		</one-of>
 	</rule>  
-  
+	
 	<rule id="ruleiphonefinder_localise" scope="public">
-		<example>SARAH musique suivante</example>
+		<example>Sarah ou est Franck ?</example>
 		<tag>out.action=new Object(); </tag>
+		<item weight="2">Sarah</item>
 		<one-of>
-			<item>géolocalise<tag>out.action.what="Address"</tag></item>
-			<item>localise<tag>out.action.what="Address"</tag></item>
-			<item>ou est<tag>out.action.what="Mix"</tag></item>
-			<item>ou se trouve<tag>out.action.what="Mix"</tag></item>
-			<item>à quelle adresse est<tag>out.action.what="Address"</tag></item>
-			<item>à quelle adresse se trouve<tag>out.action.what="Address"</tag></item>
-			<item>dans quelle ville est<tag>out.action.what="City"</tag></item>
-			<item>à quelle distance est <tag>out.action.what="Distance"</tag></item>
-			<item>à quelle distance se trouve <tag>out.action.what="Distance"</tag></item>
+				<item>géolocalise<tag>out.action.what="Address"</tag></item>
+				<item>localise<tag>out.action.what="Address"</tag></item>
+				<item>ou est<tag>out.action.what="Mix"</tag></item>
+				<item>ou se trouve<tag>out.action.what="Mix"</tag></item>
+				<item>A quelle adresse est<tag>out.action.what="Address"</tag></item>
+				<item>A quelle adresse se trouve<tag>out.action.what="Address"</tag></item>
+				<item>dans quelle ville est<tag>out.action.what="City"</tag></item>
+				<item>A quelle distance est <tag>out.action.what="Distance"</tag></item>
+				<item>A quelle distance se trouve <tag>out.action.what="Distance"</tag></item>
+				<item>Montre moi où se trouve<tag>out.action.what="Showme"</tag></item>
 		</one-of>
+<!-- Automatic Generation §1 -->
 		<one-of>
-			<item>Franck<tag>out.action.who="Franck"</tag></item>
-			<item>le téléphone de Franck<tag>out.action.who="Franck"</tag></item>
-			<item>mon téléphone<tag>out.action.who="Franck"</tag></item>
-			<item>mon iphone<tag>out.action.who="iPhone"</tag></item>
-			<item>l'ipad<tag>out.action.who="iPad"</tag></item>
+			<item>Alban<tag>out.action.account="1";out.action.index="0";out.action.name="Alban";</tag></item>
+			<item>Ipad3<tag>out.action.account="1";out.action.index="1";out.action.name="Ipad3";</tag></item>
+			<item>mon téléphone<tag>out.action.account="1";out.action.index="0";out.action.name="votre téléphone";out.action.mode="guessit";</tag></item>
+			<item>iPad de Fabienne<tag>out.action.account="2";out.action.index="0";out.action.name="iPad de Fabienne";</tag></item>
+			<item>iPhone de Fabienne<tag>out.action.account="2";out.action.index="1";out.action.name="Fabienne";</tag></item>
+			<item>Fabienne<tag>out.action.account="2";out.action.index="1";out.action.name="Fabienne";</tag></item>
 		</one-of>
+<!-- §1 Automatic Generation -->
 	</rule>  
-  
+	
 	<rule id="ruleiphonefinder_message" scope="public">
 		<example>SARAH dis a Franck de chercher du pain</example>
 		<tag>out.action=new Object();</tag>
+		<item>Dis à<tag>out.action.what="Msg";</tag></item>
+<!-- Automatic Generation §2 -->
 		<one-of>
-			<item>dis à Franck<tag>out.action.what="Msg"</tag><tag>out.action.who="Franck"</tag></item>
+			<item>Alban<tag>out.action.account="1";out.action.index="0";out.action.name="Alban";</tag></item>
+			<item>iPhone de Fabienne<tag>out.action.account="2";out.action.index="1";out.action.name="Fabienne";</tag></item>
+			<item>Fabienne<tag>out.action.account="2";out.action.index="1";out.action.name="Fabienne";</tag></item>
 		</one-of>
+<!-- §2 Automatic Generation -->
 		<one-of>
 			<item>qu'on mange<tag>out.action.msg="Il est l'heure de manger"</tag></item>
 			<item>de chercher du pain<tag>out.action.msg="Tu peux chercher du pain."</tag></item>
 		</one-of>
 	</rule>  
+	
   	<rule id="ruleiphonefinder_alarme" scope="public">
 		<example>SARAH fais sonner mon téléphone</example>
 		<tag>out.action=new Object();</tag>
 		<one-of>
 			<item>fais sonner<tag>out.action.what="Alarm"</tag></item>
 		</one-of>
+<!-- Automatic Generation §3 -->
 		<one-of>
-			<item>le téléphone de Franck<tag>out.action.who="Franck"</tag></item>
-			<item>mon téléphone<tag>out.action.who="Franck"</tag></item>
-			<item>mon iphone<tag>out.action.who="iPhone"</tag></item>
-			<item>l'ipad<tag>out.action.who="iPad"</tag></item>
+			<item>Alban<tag>out.action.account="1";out.action.index="0";out.action.name="Alban";</tag></item>
+			<item>Ipad3<tag>out.action.account="1";out.action.index="1";out.action.name="Ipad3";</tag></item>
+			<item>mon téléphone<tag>out.action.account="1";out.action.index="0";out.action.name="votre téléphone";out.action.mode="guessit";</tag></item>
+			<item>iPad de Fabienne<tag>out.action.account="2";out.action.index="0";out.action.name="iPad de Fabienne";</tag></item>
+			<item>iPhone de Fabienne<tag>out.action.account="2";out.action.index="1";out.action.name="Fabienne";</tag></item>
+			<item>Fabienne<tag>out.action.account="2";out.action.index="1";out.action.name="Fabienne";</tag></item>
 		</one-of>
+<!-- §3 Automatic Generation -->
 	</rule>  
-	
 </grammar>

@@ -1,0 +1,39 @@
+.plugin-gridster.iphonefinder .logo,
+.plugin-gridster.iphonefinder .text {
+  height: 100%;
+  position: absolute;
+  top: 0;
+}
+
+.plugin-gridster.iphonefinder .logo {
+  background: #33A3EC;
+  left: 0; width: 35%; 
+}
+
+.plugin-gridster.iphonefinder .logo .ajax {
+  display: block;
+  margin: 30px auto;
+  text-align: center;
+}
+
+.plugin-gridster.iphonefinder .text {
+  background: #FFFFFF;
+  right: 0; width: 65%; 
+  text-align: left;
+}
+.plugin-gridster.iphonefinder .text .title {
+  font-size: 22px; line-height: 22px;
+  font-weight: bold;
+}
+.plugin-gridster.iphonefinder .text .author {
+  font-size: 12px;
+  text-align: right;
+  width: 90%
+}
+.plugin-gridster.iphonefinder .text .status {
+  font-size: 10px; 
+  font-weight: bold;
+}
+.plugin-gridster.iphonefinder .text .status img {
+  vertical-align: baseline;
+}
