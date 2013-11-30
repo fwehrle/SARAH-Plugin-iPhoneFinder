@@ -100,7 +100,7 @@ exports.action = function(data, callback, config, SARAH)
 			break;
 		case "Alarm":
 			alarm = true;
-			subject = loc.getLocalString("IPHONELOCATOR");
+			subject = loc.getLocalString("IDEVICELOCATOR");
 			msg = "Envoye par SARAH"; //N'est pas visible?
 			iPhoneFinder.sendMsgToDevice(iCloudUser, iCloudPass, iCloudDevice, alarm, subject, msg, 
 										function(err, body)
@@ -112,7 +112,7 @@ exports.action = function(data, callback, config, SARAH)
 			iPhoneFinder.findAllDevices(iCloudUser, iCloudPass,
 										function(err, devices) 
 										{
-											loc.addDictEntry("DEVICE", devices[iCloudDevice].modelDisplayName);
+											loc.addDictEntry("IDEVICE", translateIDevice(devices[iCloudDevice].modelDisplayName));
 											loc.addDictEntry("VALUE", new Number(devices[iCloudDevice].batteryLevel*100).toPrecision(2));
 											bf.speak(loc.getLocalString("BATTERYLEVEL"), SARAH);
 										});
@@ -137,7 +137,7 @@ exports.action = function(data, callback, config, SARAH)
 		if ((gs_debug&2)!=0)
 			console.log(device);
 		if(device===null)
-			return callback({'tts' : loc.getLocalString("NOIPHONEFOUND")});
+			return callback({'tts' : loc.getLocalString("NOIDEVICEFOUND")});
 		if(device.location===null)
 			return callback({'tts' : loc.getLocalString("NOLOCATIONINFO")});
 		// Output device information
@@ -166,7 +166,7 @@ exports.action = function(data, callback, config, SARAH)
 				if(!checkHome(config)) 
 					return callback({ 'tts': loc.getLocalString("NOLOCATIONCONFIG")});
 				distance = getDistanceFrom(parseFloat(latitude_sarah), parseFloat(longitude_sarah), 0, lat, lon, acc);
-				loc.addDictEntry("IPHONE", data.name);
+				loc.addDictEntry("IDEVICE",	 translateIDevice(data.name));
 				retour=formatLocationMessage(distance);
 				return callback({'tts' : retour});
 				break;
@@ -186,17 +186,17 @@ exports.action = function(data, callback, config, SARAH)
 	{
 		var txt="";
 		if (distance<=10)
-			txt=loc.getLocalString("IPHONEDIST1");
+			txt=loc.getLocalString("IDEVICEDIST1");
 		else
 			if (distance<=1000)
 			{
 				loc.addDictEntry("DISTANCE", distance);
-				txt=loc.getLocalString("IPHONEDIST2");
+				txt=loc.getLocalString("IDEVICEDIST2");
 			}
 			else
 			{
 				loc.addDictEntry("DISTANCE", (distance/1000));
-				txt=loc.getLocalString("IPHONEDIST3");
+				txt=loc.getLocalString("IDEVICEDIST3");
 			}				
 		return txt;
 	}
@@ -238,12 +238,12 @@ exports.action = function(data, callback, config, SARAH)
 									}
 									if ((gs_debug&2)!=0)
 										console.log('Adresse: '+locationFound);
-									loc.addDictEntry("PHONE", data.name);
+									loc.addDictEntry("IDEVICE",	 translateIDevice(data.name));
 									loc.addDictEntry("LOCATION", locationFound);
 									if (location=="formatted_address")
-										retourTts=loc.getLocalString("IPHONELOC1");
+										retourTts=loc.getLocalString("IDEVICELOC1");
 									else
-										retourTts=loc.getLocalString("IPHONELOC2");
+										retourTts=loc.getLocalString("IDEVICELOC2");
 //									retourTts = data.name +" se trouve "+(location=="formatted_address"?" au ":" à ")+locationFound;
 									if(distance>=0)
 										retourTts=formatLocationMessage(distance);
@@ -368,6 +368,14 @@ var findAllDevices=function(account, marr)
 						});
 }
 
+var	 translateIDevice=function(name)
+{
+	var re=new RegExp("ipad","i");
+	var txt=name.replace(re, loc.getLocalString("TRANSLATEIPAD"));
+	re=new RegExp("iphone","i");
+	return txt.replace(re, loc.getLocalString("TRANSLATEIPHONE"));
+}
+
 function cronFunc(config, SARAH)
 {
 	var iCloudUser = config.api_login1;
@@ -399,8 +407,8 @@ function cronFunc(config, SARAH)
 											{
 											   if (devices[j].batteryLevel<gs_minbatterylevel && devices[j].batteryStatus=="NotCharging")
 											   {
-													loc.addDictEntry("DEVICE", devices[j].modelDisplayName);
-													loc.addDictEntry("NAME", devices[j].name);
+													loc.addDictEntry("IDEVICE", translateIDevice(devices[j].modelDisplayName));
+													loc.addDictEntry("NAME",  translateIDevice(devices[j].name));
 													loc.addDictEntry("VALUE", new Number(devices[j].batteryLevel*100).toPrecision(2));
 													if ((gs_debug&4)!=0)
 														console.log(loc.getLocalString("NOMOREBATTERIES"));
