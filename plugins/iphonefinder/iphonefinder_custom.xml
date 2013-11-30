@@ -33,13 +33,7 @@
 				<item>Montre moi où est<tag>out.action.what="Showme"</tag></item>
 		</one-of>
 		<one-of>
-		<!-- Rajouter vos noms custom ici -->
-<!-- Automatic Generation §1 -->
-			<item>iPhone4 de Franck<tag>out.action.account="1";out.action.index="0";out.action.name="Franck";</tag></item>
-			<item>Franck<tag>out.action.account="1";out.action.index="0";out.action.name="Franck";</tag></item>
-			<item>iPad de Franck<tag>out.action.account="1";out.action.index="1";out.action.name="iPad de Franck";</tag></item>
-<!-- §1 Automatic Generation -->
-			<item>mon téléphone<tag>out.action.account="1";out.action.index="0";out.action.name="votre téléphone";out.action.mode="guessit";</tag></item>
+			<item>papa<tag>out.action.account="1";out.action.index="0";out.action.name="Franck";</tag></item>
 		</one-of>
 	</rule>  
 	
@@ -48,12 +42,7 @@
 		<tag>out.action=new Object();</tag>
 		<item>Dis à<tag>out.action.what="Msg";</tag></item>
 		<one-of>
-		<!-- Rajouter vos noms custom ici -->
-<!-- Automatic Generation §2 -->
-			<item>iPhone4 de Franck<tag>out.action.account="1";out.action.index="0";out.action.name="Franck";</tag></item>
-			<item>Franck<tag>out.action.account="1";out.action.index="0";out.action.name="Franck";</tag></item>
-<!-- §2 Automatic Generation -->
-			<item>mon téléphone<tag>out.action.account="1";out.action.index="0";out.action.name="votre téléphone";out.action.mode="guessit";</tag></item>
+			<item>papa<tag>out.action.account="1";out.action.index="0";out.action.name="Franck";</tag></item>
 		</one-of>
 		<one-of>
 			<item>qu'on mange<tag>out.action.msg="Il est l'heure de manger"</tag></item>
@@ -72,13 +61,8 @@
 			<item>envois un alarme à<tag>out.action.what="Alarm"</tag></item>
 		</one-of>
 		<one-of>
-		<!-- Rajouter vos noms custom ici -->
-<!-- Automatic Generation §3 -->
-			<item>iPhone4 de Franck<tag>out.action.account="1";out.action.index="0";out.action.name="Franck";</tag></item>
-			<item>Franck<tag>out.action.account="1";out.action.index="0";out.action.name="Franck";</tag></item>
-			<item>iPad de Franck<tag>out.action.account="1";out.action.index="1";out.action.name="iPad de Franck";</tag></item>
-<!-- §3 Automatic Generation -->
-			<item>mon téléphone<tag>out.action.account="1";out.action.index="0";out.action.name="votre téléphone";out.action.mode="guessit";</tag></item>
+			<item>iPhone de papa<tag>out.action.account="1";out.action.index="0";out.action.name="Franck";</tag></item>
+			<item>papa<tag>out.action.account="1";out.action.index="0";out.action.name="Franck";</tag></item>
 		</one-of>
 	</rule>  
 </grammar>

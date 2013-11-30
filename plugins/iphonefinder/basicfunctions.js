@@ -55,11 +55,13 @@ var getSpeaker=function(data, ignoreunknow)
 {
   if (typeof data.profile!=="undefined")
   {
-    if (ignoreunknow==false)
+    if (ignoreunknow==false){
 		return data.profile;
-	else
-	  if (data.profile.search("Unknow")==-1)
+	}else{
+	  if (data.profile.search("Unknow")==-1){
 	    return data.profile;
+	  }
+	}
   }
   return "";
 }

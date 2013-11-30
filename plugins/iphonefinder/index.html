@@ -12,15 +12,30 @@
 			<p>Par défaut, le plugin localise le premier iDevice lié au compte. Si il y en a plusieurs, il suffit d'indiquer le numéro du device dans le fichier xml :</p>
 			<pre>&lt;item&gt;Franck&lt;tag&gt;out.action.who = &quot;Franck&quot;&lt;/tag&gt;&lt;/item&gt;</pre>
 			<p>Il suffit de renseigner vos identifiants iCloud dans la configuration du plugin, et ca marche!</p>
-			<p>Il est possible d'affiner le résultat en indiquant le niveau de précision dans le tag "what" : <br>
-			"Distance" pour la distance, "City" pour la ville, "Address" pour l'adresse complète et "Mix" pour la ville et la distance</p>
+			<p><b>Il est possible d'affiner le résultat en indiquant le niveau de précision dans le tag "what" : </b><br>
+			- "Distance" pour la distance, <br>
+			- "City" pour la ville, <br>
+			- "Address" pour l'adresse complète<br>
+			- "Mix" pour la ville et la distance<br>
+			- "Alarm" pour faire sonner le device<br>
+			- "Showme" pour afficher le device sur une carte en ChromeLess (*** EXPERIMENTAL ***) (Par Alban)
+			</p>
 			<pre>&lt;item&gt;ou est&lt;tag&gt;out.action.what = &quot;Address&quot;&lt;/tag&gt;&lt;/item&gt;</pre>
 			<p>Si vous voulez que SARAH vous donne la distance qui sépare l'utilisateur à localiser d'un endroit (la maison) il faut saisir les coordonnées GPS de l'endroit<br>
 			dans la configuration du plugin (latitude_sarah et longitude_sarah). Pour les trouver, il suffit d'aller sur <a href="https://maps.google.com">Google Maps</a>, <br>
 			de localiser l'endroit, et de faire un clic droit sur le marqueur rouge et "Plus d'infos sur cet endroit".<br>
 			les coordonnées (latitude,longitude) sont indiquées dans la barre d'adresse de Maps.</p></br>
-			<p><b>EXPERIMENTAL:</b>Le tag "what" peut aussi contenir les mot-clés "Alarm" pour faire sonner le téléphone et "Msg" pour envoyer un message (dans ce cas, ajouter un tag "msg" avec votre message). </p>
-		</div>
+			</p>
+			<p></p>
+			<p><b>Mode Guessit: (Par Alban)</b>
+			<p>le Tag "mode" peut contenir "guessit" pour que SARAH tente d'identifier l'utilisateur (reco facial ou pitch audio) quand il dit "mon téléphone".
+			Si elle ne trouve pas de profil, elle prend le 1er device du 1er compte iCloud.</p>
+			<p></p>
+			<p><b>TODO/idées :</b>
+			- Demander le niveau de batterie d'un device <b>
+			- Alerter (vocaliser) si le niveau de batterie d'un device est trop bas (via tache cron)<b>
+			</p>
+			</div>
   </div>
 
 </div>

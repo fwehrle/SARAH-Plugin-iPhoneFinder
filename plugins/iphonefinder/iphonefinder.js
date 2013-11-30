@@ -42,7 +42,7 @@ exports.action = function(data, callback, config, SARAH)
 	if (typeof data.mode!=="undefined" && data.mode=="guessit")
 	{
 	  var spk=bf.getSpeaker(data, true);
-	  if (spk!=NULL)
+	  if (spk!=""){
 		for (i=0;i<g_listiPhone.length;i++)
 		  if (g_listiPhone[i].name.search(new RegExp(spk, "i"))!=-1)
 		  {
@@ -50,7 +50,13 @@ exports.action = function(data, callback, config, SARAH)
 			data.index=g_listiPhone[i].index;
 			break;
 		  }
+		  console.log("account:"+data.account);
+	  }else{
+		  console.log("no account");
+	  }
+	  console.log(spk);
 	}
+	
 	switch(parseInt(data.account))
 	{
 		case 1:
@@ -64,6 +70,10 @@ exports.action = function(data, callback, config, SARAH)
 		case 3:
 			iCloudUser = config.api_login3;
 			iCloudPass = config.api_password3;
+			break;
+		default:
+			iCloudUser = config.api_login1;
+			iCloudPass = config.api_password1;
 			break;
 	}
 
@@ -302,9 +312,9 @@ var showAllDevicesAndUpdateXML=function(config, SARAH)
 	if (config.api_login3="" && config.api_login3!=gs_default_emailicloud)
 		marr.push({'login': config.api_login3, 'password': config.api_password3});
 	g_total=marr.length;
-	g_xml1="		<one-of>\n";
-	g_xml2="		<one-of>\n";
-	g_xml3="		<one-of>\n";
+	g_xml1="";//"		<one-of>\n";
+	g_xml2="";//"		<one-of>\n";
+	g_xml3="";//"		<one-of>\n";
 	for (var i=0;i<g_total;i++)
 		findAllDevices(i, marr);
 	return 0;
@@ -339,18 +349,20 @@ var findAllDevices=function(account, marr)
 									if ((gs_debug&4)!=0)
 										console.log(devices[j]);
 							}
-							if (account==0 && first_iphone!=-1)
+							//FRW : on rajoute la commande "mon telephone" en guessit en dur pour eviter le one-of vide
+						/*	if (account==0 && first_iphone!=-1)
 							{
 								var txt="			<item>"+loc.getLocalString("MYPHONE")+"<tag>out.action.account=\""+(account+1)+"\";out.action.index=\""+first_iphone+"\";out.action.name=\""+loc.getLocalString("YOURPHONE")+"\";out.action.mode=\"guessit\";</tag></item>\n";
 								g_xml3+=txt;
 								g_xml1+=txt;
 							}
+						*/	
 							g_total--;
 							if (g_total==0)
 							{
-								g_xml1+="		</one-of>\n";
-								g_xml2+="		</one-of>\n";
-								g_xml3+="		</one-of>\n";
+								g_xml1+="";//"		</one-of>\n";
+								g_xml2+="";//"		</one-of>\n";
+								g_xml3+="";//"		</one-of>\n";
 								bf.replaceSectionInFile(__dirname+"\\iphonefinder.xml", __dirname+"\\iphonefinder.xml", 1, g_xml1);
 								bf.replaceSectionInFile(__dirname+"\\iphonefinder.xml", __dirname+"\\iphonefinder.xml", 2, g_xml2);
 								bf.replaceSectionInFile(__dirname+"\\iphonefinder.xml", __dirname+"\\iphonefinder.xml", 3, g_xml3);
