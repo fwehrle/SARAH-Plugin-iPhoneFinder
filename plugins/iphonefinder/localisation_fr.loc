@@ -1,7 +1,7 @@
 INVALIDCONFIG#La configuration est invalide
 PLEASECONFIGURE#Le pleug in n'est pas configuré, merci de le configurer
 LOCERROR#Erreur de localisation
-APPLESITEERROR#Je n'ai pas réussi à me connecter aux serveur d'Apple
+APPLESITEERROR#Je n'ai pas réussi à me connecter aux serveurs d'Apple
 MSGSENDED#Le message a été envoyé
 ALARMSENDED#L'alarme a été envoyé
 IPHONELOCATOR#Localisation d'iphone
@@ -9,8 +9,8 @@ NOIPHONEFOUND#Aucun téléphone trouvé
 NOLOCATIONINFO#Aucune information de localisation disponible
 NOLOCATIONCONFIG#Veuillez configurer votre position pour utiliser cette fonction
 IPHONEDIST1#%PHONE% ne se trouve pas très loin.
-IPHONEDIST2#%PHONE% est à %DISTANCE% métres.
-IPHONEDIST3#%PHONE% est à %DISTANCE% kilométres.
+IPHONEDIST2#%PHONE% est à %DISTANCE% mètres.
+IPHONEDIST3#%PHONE% est à %DISTANCE% kilomètres.
 IPHONELOC1#%PHONE% se trouve au %LOCATION%
 IPHONELOC2#%PHONE% se trouve à %LOCATION%
 ERRORLOC#Aucun emplacement trouvé pour la localisation

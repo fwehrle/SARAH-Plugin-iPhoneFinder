@@ -7,8 +7,8 @@ const gs_debug=0;
 const gs_default_emailicloud="[Email iCloud]";
 const gs_default_passwordicloud="[Mot de passe iCloud]";
 const gs_libiphonefinder="./lib/iphone-finder.js";
-// Pull info each 30 minutes
-const gs_crontimer=30;
+// Pull info each 60 minutes
+const gs_crontimer=60;
 const gs_minbatterylevel=0.10;
 
 var g_total=0;

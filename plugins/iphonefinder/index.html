@@ -18,6 +18,7 @@
 			- "Address" pour l'adresse complète<br>
 			- "Mix" pour la ville et la distance<br>
 			- "Alarm" pour faire sonner le device<br>
+            - "Battery" pour connaitre le niveau de batterie d'un device ***NEW*** (Par Alban)<br>
 			- "Showme" pour afficher le device sur une carte en ChromeLess (*** EXPERIMENTAL ***) (Par Alban)
 			</p>
 			<pre>&lt;item&gt;ou est&lt;tag&gt;out.action.what = &quot;Address&quot;&lt;/tag&gt;&lt;/item&gt;</pre>
@@ -31,9 +32,12 @@
 			<p>le Tag "mode" peut contenir "guessit" pour que SARAH tente d'identifier l'utilisateur (reco facial ou pitch audio) quand il dit "mon téléphone".
 			Si elle ne trouve pas de profil, elle prend le 1er device du 1er compte iCloud.</p>
 			<p></p>
-			<p><b>TODO/idées :</b>
-			- Demander le niveau de batterie d'un device <b>
-			- Alerter (vocaliser) si le niveau de batterie d'un device est trop bas (via tache cron)<b>
+			<p><b>Surveillance de batterie: (*** EXPERIMENTAL ***)</b>
+			Si vous paramétrez le paramètre monitorbatterylvl à 1, SARAH vérifie le niveau de batterie (toutes les heures) et vous averti si elle descend en dessous de 10% <b>
+			La fréquence de vérification et le niveau minimal peuvent être modifiés dans iphonefinder.js
+            <b>NOTE IMPORTANTE : </b> La récupération des infos se faisant par un chemin non officiel (via les URL d'Apple), il n'est pas prévue par Apple que l'on demande le niveau de batterie à intervalle réguliers.
+                    Ceci est donc à utiliser pour tests uniquements.
+            De plus, il se peut que des demandes répétées aient un impact sur la batterie de l'iPhone. :)
 			</p>
 			</div>
   </div>
