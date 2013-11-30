@@ -1,84 +1,74 @@
 <grammar version="1.0" xml:lang="fr-FR" mode="voice" root="ruleiphonefinder" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
   <rule id="ruleiphonefinder" scope="public">
 		<example>Sarah ou est Franck</example>
-		<tag>out.action=new Object(); </tag>
+		<tag>out.action=new Object();</tag>
 		<item>Sarah</item>
 		<one-of>
-			<item><ruleref uri="#ruleiphonefinder_localise"/><tag>out.action = rules.ruleiphonefinder_localise;</tag><tag>out.action._attributes.tts = "Je me renseigne"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/iphonefinder";</tag></item>
-			<item><ruleref uri="#ruleiphonefinder_message"/><tag>out.action = rules.ruleiphonefinder_message;</tag><tag>out.action._attributes.tts = "Très bien, je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/iphonefinder";</tag></item>
-			<item><ruleref uri="#ruleiphonefinder_alarme"/><tag>out.action = rules.ruleiphonefinder_alarme;</tag><tag>out.action._attributes.tts = "Très bien, je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/iphonefinder";</tag></item>
+			<item><ruleref uri="#ruleiphonefinder_localise"/><tag>out.action = rules.ruleiphonefinder_localise;</tag><tag>out.action._attributes.tts="Je me renseigne";</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/iphonefinder";</tag></item>
+			<item><ruleref uri="#ruleiphonefinder_message"/><tag>out.action = rules.ruleiphonefinder_message;</tag><tag>out.action._attributes.tts="Très bien, je m'en occupe";</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/iphonefinder";</tag></item>
+			<item><ruleref uri="#ruleiphonefinder_alarme"/><tag>out.action = rules.ruleiphonefinder_alarme;</tag><tag>out.action._attributes.tts="Très bien, je m'en occupe";</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/iphonefinder";</tag></item>
 		</one-of>
-	</rule>  
+	</rule>	 
 	
 	<rule id="ruleiphonefinder_localise" scope="public">
 		<example>Sarah ou est Franck ?</example>
-		<tag>out.action=new Object(); </tag>
+		<tag>out.action=new Object();</tag>
 		<one-of>
-				<item>géolocalise<tag>out.action.what="Address"</tag></item>
-				<item>localise<tag>out.action.what="Address"</tag></item>
-				<item>ou est<tag>out.action.what="Mix"</tag></item>
-				<item>ou se trouve<tag>out.action.what="Mix"</tag></item>
-				<item>localise l'<tag>out.action.what="Address"</tag></item>
-				<item>ou est l'<tag>out.action.what="Mix"</tag></item>
-				<item>ou se trouve l'<tag>out.action.what="Mix"</tag></item>
-				<item>localise le téléphone de<tag>out.action.what="Address"</tag></item>
-				<item>ou est le téléphone de<tag>out.action.what="Mix"</tag></item>
-				<item>ou se trouve le téléphone de<tag>out.action.what="Mix"</tag></item>
-				<item>A quelle adresse est<tag>out.action.what="Address"</tag></item>
-				<item>A quelle adresse se trouve<tag>out.action.what="Address"</tag></item>
-				<item>dans quelle ville est<tag>out.action.what="City"</tag></item>
-				<item>A quelle distance est <tag>out.action.what="Distance"</tag></item>
-				<item>A quelle distance se trouve <tag>out.action.what="Distance"</tag></item>
-				<item>Montre moi où se trouve<tag>out.action.what="Showme"</tag></item>
-				<item>Montre moi où est<tag>out.action.what="Showme"</tag></item>
+				<item>géolocalise<tag>out.action.what="Address";</tag></item>
+				<item>localise<tag>out.action.what="Address";</tag></item>
+				<item>ou est<tag>out.action.what="Mix";</tag></item>
+				<item>ou se trouve<tag>out.action.what="Mix";</tag></item>
+				<item>localise l'<tag>out.action.what="Address";</tag></item>
+				<item>ou est l'<tag>out.action.what="Mix";</tag></item>
+				<item>ou se trouve l'<tag>out.action.what="Mix";</tag></item>
+				<item>localise le téléphone de<tag>out.action.what="Address";</tag></item>
+				<item>ou est le téléphone de<tag>out.action.what="Mix";</tag></item>
+				<item>ou se trouve le téléphone de<tag>out.action.what="Mix";</tag></item>
+				<item>A quelle adresse est<tag>out.action.what="Address";</tag></item>
+				<item>A quelle adresse se trouve<tag>out.action.what="Address";</tag></item>
+				<item>dans quelle ville est<tag>out.action.what="City";</tag></item>
+				<item>A quelle distance est <tag>out.action.what="Distance";</tag></item>
+				<item>A quelle distance se trouve <tag>out.action.what="Distance";</tag></item>
+				<item>Montre moi où se trouve<tag>out.action.what="Showme";</tag></item>
+				<item>Montre moi où est<tag>out.action.what="Showme";</tag></item>
+				<item>Quel est le niveau de batterie de<tag>out.action.what="Battery";</tag></item>
+				<item>Quel est le niveau de batterie du téléphone de<tag>out.action.what="Battery";</tag></item>
 		</one-of>
 		<one-of>
-		<!-- Rajouter vos noms custom ici -->
+			<!-- Rajouter vos noms custom ici -->
 <!-- Automatic Generation §1 -->
-			<item>iPhone4 de Franck<tag>out.action.account="1";out.action.index="0";out.action.name="Franck";</tag></item>
-			<item>Franck<tag>out.action.account="1";out.action.index="0";out.action.name="Franck";</tag></item>
-			<item>iPad de Franck<tag>out.action.account="1";out.action.index="1";out.action.name="iPad de Franck";</tag></item>
 <!-- §1 Automatic Generation -->
 			<item>mon téléphone<tag>out.action.account="1";out.action.index="0";out.action.name="votre téléphone";out.action.mode="guessit";</tag></item>
 		</one-of>
-	</rule>  
+	</rule>	 
 	
 	<rule id="ruleiphonefinder_message" scope="public">
 		<example>SARAH dis a Franck de chercher du pain</example>
 		<tag>out.action=new Object();</tag>
 		<item>Dis à<tag>out.action.what="Msg";</tag></item>
-		<one-of>
-		<!-- Rajouter vos noms custom ici -->
 <!-- Automatic Generation §2 -->
-			<item>iPhone4 de Franck<tag>out.action.account="1";out.action.index="0";out.action.name="Franck";</tag></item>
-			<item>Franck<tag>out.action.account="1";out.action.index="0";out.action.name="Franck";</tag></item>
 <!-- §2 Automatic Generation -->
-			<item>mon téléphone<tag>out.action.account="1";out.action.index="0";out.action.name="votre téléphone";out.action.mode="guessit";</tag></item>
-		</one-of>
 		<one-of>
-			<item>qu'on mange<tag>out.action.msg="Il est l'heure de manger"</tag></item>
-			<item>de chercher du pain<tag>out.action.msg="Tu peux chercher du pain."</tag></item>
+			<item>qu'on mange<tag>out.action.msg="Il est l'heure de manger";</tag></item>
+			<item>de chercher du pain<tag>out.action.msg="Tu peux chercher du pain.";</tag></item>
 		</one-of>
-	</rule>  
+	</rule>	 
 	
-  	<rule id="ruleiphonefinder_alarme" scope="public">
+	<rule id="ruleiphonefinder_alarme" scope="public">
 		<example>SARAH fais sonner mon téléphone</example>
 		<tag>out.action=new Object();</tag>
 		<one-of>
-			<item>fais sonner<tag>out.action.what="Alarm"</tag></item>
-			<item>fais sonner le téléphone de<tag>out.action.what="Alarm"</tag></item>
-			<item>fais sonner l'<tag>out.action.what="Alarm"</tag></item>
-			<item>alertes<tag>out.action.what="Alarm"</tag></item>
-			<item>envois un alarme à<tag>out.action.what="Alarm"</tag></item>
+			<item>fais sonner<tag>out.action.what="Alarm";</tag></item>
+			<item>fais sonner le téléphone de<tag>out.action.what="Alarm";</tag></item>
+			<item>fais sonner l'<tag>out.action.what="Alarm";</tag></item>
+			<item>alertes<tag>out.action.what="Alarm";</tag></item>
+			<item>envois un alarme à<tag>out.action.what="Alarm";</tag></item>
 		</one-of>
 		<one-of>
-		<!-- Rajouter vos noms custom ici -->
+			<!-- Rajouter vos noms custom ici -->
 <!-- Automatic Generation §3 -->
-			<item>iPhone4 de Franck<tag>out.action.account="1";out.action.index="0";out.action.name="Franck";</tag></item>
-			<item>Franck<tag>out.action.account="1";out.action.index="0";out.action.name="Franck";</tag></item>
-			<item>iPad de Franck<tag>out.action.account="1";out.action.index="1";out.action.name="iPad de Franck";</tag></item>
 <!-- §3 Automatic Generation -->
 			<item>mon téléphone<tag>out.action.account="1";out.action.index="0";out.action.name="votre téléphone";out.action.mode="guessit";</tag></item>
 		</one-of>
-	</rule>  
+	</rule>	 
 </grammar>

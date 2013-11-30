@@ -10,7 +10,8 @@
 	  "api_login3": "[Email iCloud]",
       "api_password3": "mot de passe iCloud",
       "latitude_sarah": "",
-      "longitude_sarah": ""
+      "longitude_sarah": "",
+	  "monitorbatterylvl": 0
 	}
   }
 }

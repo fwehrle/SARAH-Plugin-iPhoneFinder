@@ -1,29 +1,33 @@
-﻿const gs_debug=0;
+﻿///////////////////////////////////////////////////
+// TODO:
+//	 Chromeless & crash with googlemap loc. (Chromelessa alternative)
+///////////////////////////////////////////////////
+
+const gs_debug=0;
 const gs_default_emailicloud="[Email iCloud]";
 const gs_default_passwordicloud="[Mot de passe iCloud]";
 const gs_libiphonefinder="./lib/iphone-finder.js";
+// Pull info each 30 minutes
+const gs_crontimer=30;
+const gs_minbatterylevel=0.10;
 
 var g_total=0;
 var g_xml1="";
 var g_xml2="";
-var g_xml3="";
 var g_listiPhone=new Array();
+var g_listiDevice=new Array();
 
 var bf=require("./basicfunctions.js");
 var loc=require("./customloc.js").init(__dirname);
 	
-///////////////////////////////////////////////////
-// TODO:
-//	 battery level & recharge...
-//	 Chromeless & crash with googlemap loc. (Chromelessa alternative)
-///////////////////////////////////////////////////
-
 exports.init=function(SARAH)
 {
 	var config=SARAH.ConfigManager.getConfig();
 	config=config.modules.iphonefinder;
 	// Comment the next line when configuration setted
 	showAllDevicesAndUpdateXML(config, SARAH);
+	if (config.monitorbatterylvl==1)
+		setInterval(function(){cronFunc(config, SARAH);}, gs_crontimer*60*1000);
 }
 
 exports.action = function(data, callback, config, SARAH)
@@ -42,7 +46,7 @@ exports.action = function(data, callback, config, SARAH)
 	if (typeof data.mode!=="undefined" && data.mode=="guessit")
 	{
 	  var spk=bf.getSpeaker(data, true);
-	  if (spk!=""){
+	  if (spk!="")
 		for (i=0;i<g_listiPhone.length;i++)
 		  if (g_listiPhone[i].name.search(new RegExp(spk, "i"))!=-1)
 		  {
@@ -50,13 +54,7 @@ exports.action = function(data, callback, config, SARAH)
 			data.index=g_listiPhone[i].index;
 			break;
 		  }
-		  console.log("account:"+data.account);
-	  }else{
-		  console.log("no account");
-	  }
-	  console.log(spk);
 	}
-	
 	switch(parseInt(data.account))
 	{
 		case 1:
@@ -108,6 +106,15 @@ exports.action = function(data, callback, config, SARAH)
 										function(err, body)
 										{
 											callback({'tts' : loc.getLocalString("ALARMSENDED")});
+										});
+			break;
+		case "Battery":
+			iPhoneFinder.findAllDevices(iCloudUser, iCloudPass,
+										function(err, devices) 
+										{
+											loc.addDictEntry("DEVICE", devices[iCloudDevice].modelDisplayName);
+											loc.addDictEntry("VALUE", new Number(devices[iCloudDevice].batteryLevel*100).toPrecision(2));
+											bf.speak(loc.getLocalString("BATTERYLEVEL"), SARAH);
 										});
 			break;
 		case "Showme":
@@ -312,9 +319,8 @@ var showAllDevicesAndUpdateXML=function(config, SARAH)
 	if (config.api_login3="" && config.api_login3!=gs_default_emailicloud)
 		marr.push({'login': config.api_login3, 'password': config.api_password3});
 	g_total=marr.length;
-	g_xml1="";//"		<one-of>\n";
-	g_xml2="";//"		<one-of>\n";
-	g_xml3="";//"		<one-of>\n";
+	g_xml1="";
+	g_xml2="		<one-of>\n";
 	for (var i=0;i<g_total;i++)
 		findAllDevices(i, marr);
 	return 0;
@@ -326,7 +332,6 @@ var findAllDevices=function(account, marr)
 	ipf.findAllDevices(marr[account].login, marr[account].password, 
 					   function(err,devices)
 					   {
-							var first_iphone=-1;  
 							console.log("***Showing devices for account "+(account+1));
 							for (var j=0;j<devices.length;j++)
 							{
@@ -338,34 +343,71 @@ var findAllDevices=function(account, marr)
 								if (devices[j].name!=name)
 									line2="			<item>"+name+"<tag>out.action.account=\""+(account+1)+"\";out.action.index=\""+j+"\";out.action.name=\""+name+"\";</tag></item>\n";
 								g_xml1+=line1+line2;
-								g_xml3+=line1+line2;
+								// g_xml2 only fill by iphone devices
 								if (devices[j].modelDisplayName=="iPhone")
 								{
-									if (first_iphone==-1)
-										first_iphone=j;
 									g_xml2+=line1+line2;
-									g_listiPhone.push({'name':name,'account':account+1,'index':j});
+									// save list of iphone for futur use (guessit mode need it !)
+									g_listiPhone.push({'name':name, 'account':account+1, 'index':j, 'model': devices[j].modelDisplayName, 'displayname': devices[j].deviceDisplayName});
 								}
-									if ((gs_debug&4)!=0)
-										console.log(devices[j]);
+								else
+								  // also save idevices list for futur use...
+								  g_listiDevice.push({'name':name, 'account':account+1, 'index':j, 'model':devices[j].modelDisplayName, 'displayname': devices[j].deviceDisplayName});
+								if ((gs_debug&4)!=0)
+									console.log(devices[j]);
 							}
-							//FRW : on rajoute la commande "mon telephone" en guessit en dur pour eviter le one-of vide
-						/*	if (account==0 && first_iphone!=-1)
-							{
-								var txt="			<item>"+loc.getLocalString("MYPHONE")+"<tag>out.action.account=\""+(account+1)+"\";out.action.index=\""+first_iphone+"\";out.action.name=\""+loc.getLocalString("YOURPHONE")+"\";out.action.mode=\"guessit\";</tag></item>\n";
-								g_xml3+=txt;
-								g_xml1+=txt;
-							}
-						*/	
 							g_total--;
 							if (g_total==0)
 							{
-								g_xml1+="";//"		</one-of>\n";
-								g_xml2+="";//"		</one-of>\n";
-								g_xml3+="";//"		</one-of>\n";
+								g_xml1+="";
+								g_xml2+="		</one-of>\n";
 								bf.replaceSectionInFile(__dirname+"\\iphonefinder.xml", __dirname+"\\iphonefinder.xml", 1, g_xml1);
 								bf.replaceSectionInFile(__dirname+"\\iphonefinder.xml", __dirname+"\\iphonefinder.xml", 2, g_xml2);
-								bf.replaceSectionInFile(__dirname+"\\iphonefinder.xml", __dirname+"\\iphonefinder.xml", 3, g_xml3);
+								bf.replaceSectionInFile(__dirname+"\\iphonefinder.xml", __dirname+"\\iphonefinder.xml", 3, g_xml1);
 							}
 						});
+}
+
+function cronFunc(config, SARAH)
+{
+	var iCloudUser = config.api_login1;
+	var iCloudPass = config.api_password1;
+	for (var i=0;i<3;i++)
+	{
+		switch(i)
+		{
+			case 0:
+				iCloudUser = config.api_login1;
+				iCloudPass = config.api_password1;
+				break;
+			case 1:
+				iCloudUser = config.api_login2;
+				iCloudPass = config.api_password2;
+				break;
+			case 2:
+				iCloudUser = config.api_login3;
+				iCloudPass = config.api_password3;
+				break;
+		}
+		if (iCloudUser!="" && iCloudUser!=gs_default_emailicloud)
+		{
+			var iPhoneFinder = require(gs_libiphonefinder);
+			iPhoneFinder.findAllDevices(iCloudUser, iCloudPass,
+										function(err, devices) 
+										{
+											for (var j=0;j<devices.length;j++)
+											{
+											   if (devices[j].batteryLevel<gs_minbatterylevel && devices[j].batteryStatus=="NotCharging")
+											   {
+													loc.addDictEntry("DEVICE", devices[j].modelDisplayName);
+													loc.addDictEntry("NAME", devices[j].name);
+													loc.addDictEntry("VALUE", new Number(devices[j].batteryLevel*100).toPrecision(2));
+													if ((gs_debug&4)!=0)
+														console.log(loc.getLocalString("NOMOREBATTERIES"));
+													bf.speak(loc.getLocalString("NOMOREBATTERIES"), SARAH);
+											   }
+											}
+										})
+		}
+	}
 }

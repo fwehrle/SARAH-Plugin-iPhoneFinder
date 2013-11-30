@@ -16,6 +16,6 @@ IPHONELOC2#%PHONE% se trouve à %LOCATION%
 ERRORLOC#Aucun emplacement trouvé pour la localisation
 ERRORGETLOC#Erreur de récupération de l'adresse
 NOLOCRESULT#Aucun resultat
-MYPHONE#mon téléphone
-YOURPHONE#votre téléphone
 IPHONEPATTERN#iphone[0-9]* d[e' ]*
+NOMOREBATTERIES#Attention L'%DEVICE%, nommé %NAME%, a moins de %VALUE% pour cent de batterie, veillez à le mettre en charge rapidement.
+BATTERYLEVEL#Le niveau de batterie de l'%DEVICE%, est de %VALUE% pour cent.
