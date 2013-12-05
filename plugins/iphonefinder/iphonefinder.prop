@@ -2,7 +2,7 @@
   "modules": { 
     "iphonefinder": {
       "description": "Use Find my iPhone to locate an iPhone user",
-      "version": "1.1",
+      "version": "2.2",
 	  "api_login1": "[Email iCloud]",
       "api_password1": "mot de passe iCloud",
 	  "api_login2": "[Email iCloud]",

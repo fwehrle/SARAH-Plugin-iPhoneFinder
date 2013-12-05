@@ -2,6 +2,7 @@ INVALIDCONFIG#La configuration est invalide
 PLEASECONFIGURE#Le pleug in n'est pas configuré, merci de le configurer
 LOCERROR#Erreur de localisation
 APPLESITEERROR#Je n'ai pas réussi à me connecter aux serveurs d'Apple
+GOOGLESITEERROR#Je n'ai pas réussi à me connecter aux serveurs de Google
 MSGSENDED#Le message a été envoyé
 ALARMSENDED#L'alarme a été envoyé
 IDEVICELOCATOR#Localisation d'ibidule
@@ -11,13 +12,23 @@ NOLOCATIONCONFIG#Veuillez configurer votre position pour utiliser cette fonction
 IDEVICEDIST1#%IDEVICE% ne se trouve pas très loin.
 IDEVICEDIST2#%IDEVICE% est à %DISTANCE% mètres.
 IDEVICEDIST3#%IDEVICE% est à %DISTANCE% kilomètres.
-IDEVICELOC1#%IDEVICE% se trouve au %LOCATION%
-IDEVICELOC2#%IDEVICE% se trouve à %LOCATION%
+IDEVICEDIST1add#pas très loin.
+IDEVICEDIST2add#à %DISTANCE% mètres.
+IDEVICEDIST3add#à %DISTANCE% kilomètres.
+IDEVICELOC1#%IDEVICE% se trouve au %LOCATION%.
+IDEVICELOC2#%IDEVICE% se trouve à %LOCATION%.
 ERRORLOC#Aucun emplacement trouvé pour la localisation
 ERRORGETLOC#Erreur de récupération de l'adresse
-NOLOCRESULT#Aucun resultat
+NORESULT#Aucun resultat
 IPHONEPATTERN#iphone[0-9]* d[e' ]*
 NOMOREBATTERIES#Attention L'%IDEVICE%, nommé %NAME%, a moins de %VALUE% pour cent de batterie, veillez à le mettre en charge rapidement.
 BATTERYLEVEL#Le niveau de batterie de l'%IDEVICE%, est de %VALUE% pour cent.
 TRANSLATEIPAD#aïe-pad
 TRANSLATEIPHONE#aïe-phone
+DIRERROR#Erreur de calcul de l'itinéraire
+ERRORDIR#Aucun itinéraire trouvé
+ERRORGETDUR#Erreur de récupération du temps de parcours
+IDEVICEDIR1#%IDEVICE% arrive dans %DURATION%.
+IDEVICEDIR2#Arrivée prévue dans %DURATION%.
+INVALIDNAME#Utilisateur non précisé.
+SHOWMEMSG#Voici la carte.
