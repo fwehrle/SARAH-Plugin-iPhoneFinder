@@ -272,6 +272,10 @@ exports.action = function(data, callback, config, SARAH)
                                     if ((gs_debug&1)!=0) console.log('Duration: '+durationFound);
 
                                     loc.addDictEntry("IDEVICE",	 translateIDevice(data.name));
+                                    //durationFound=durationFound.replace("mins", " minutes");
+                                    durationFound=durationFound.replace("min", " minute");
+                                    //durationFound=durationFound.replace("mn", " minute");
+                                    
                                     loc.addDictEntry("DURATION", durationFound);
                                     if(distance>=0){
                                         retourTts=formatLocationMessage(distance, retourTts);
